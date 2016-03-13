@@ -4,6 +4,9 @@ import shelve
 
 
 class ReportCmd(cmd.Cmd):
+    """
+    report command class
+    """
 
     def __init__(self):
         cmd.Cmd.__init__(self)
