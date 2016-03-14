@@ -84,7 +84,7 @@ class DataGenerator:
         return result_list
 
 if __name__ == '__main__':
-    r = ReportGenerator('test.txt')
+    r = DataGenerator('test.txt')
     result = r.pre_check()
     if result[0]:
         print("Congratulations!!!!",' Result: \n')
