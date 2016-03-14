@@ -4,7 +4,7 @@ import shelve
 import time
 
 
-class ReportGenerator:
+class DataGenerator:
 
     def __init__(self, file_path):
         self.file_path = file_path      # the file path
