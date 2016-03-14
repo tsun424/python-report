@@ -40,33 +40,34 @@ class ReportGenerator:
                 if not result_list:
                     result_list.insert(0, False)
                 result_list.append(column_errmsg.format(line_number=(i+1)))
+                continue
             # check the format of ID
-            if not re.match('[A-Z][0-9]{3}', column_list[0]):
+            if not re.match('^[A-Z][0-9]{3}$', column_list[0]):
                 if not result_list:
                     result_list.insert(0, False)
                 result_list.append(errmsg.format(column=columns[0], value=column_list[0], line_number=(i+1)))
             # check the format of Gender
-            if not re.match('(M|F)', column_list[1]):
+            if not re.match('^(M|F)$', column_list[1]):
                 if not result_list:
                     result_list.insert(0, False)
                 result_list.append(errmsg.format(column=columns[1], value=column_list[1], line_number=(i+1)))
             # check the format of Age
-            if not re.match('[0-9]{2}', column_list[2]):
+            if not re.match('^[0-9]{2}$', column_list[2]):
                 if not result_list:
                     result_list.insert(0, False)
                 result_list.append(errmsg.format(column=columns[2], value=column_list[2], line_number=(i+1)))
             # check the format of Sales
-            if not re.match('[0-9]{3}', column_list[3]):
+            if not re.match('^[0-9]{3}$', column_list[3]):
                 if not result_list:
                     result_list.insert(0, False)
                 result_list.append(errmsg.format(column=columns[3], value=column_list[3], line_number=(i+1)))
             # check the format of BMI
-            if not re.match('(Normal|Overweight|Obesity|Underweight)', column_list[4]):
+            if not re.match('^(Normal|Overweight|Obesity|Underweight)$', column_list[4]):
                 if not result_list:
                     result_list.insert(0, False)
                 result_list.append(errmsg.format(column=columns[4], value=column_list[4], line_number=(i+1)))
             # check the format of Income
-            if not re.match('[0-9]{2,3}', column_list[5]):
+            if not re.match('^[0-9]{2,3}$', column_list[5]):
                 if not result_list:
                     result_list.insert(0, False)
                 result_list.append(errmsg.format(column=columns[5], value=column_list[5], line_number=(i+1)))
@@ -79,6 +80,7 @@ class ReportGenerator:
             current_time = time.strftime("%Y%m%d%H%M%S")
             db[current_time] = passed_list
             result_list.append(current_time)
+            db.close()
         return result_list
 
 if __name__ == '__main__':
@@ -88,5 +90,6 @@ if __name__ == '__main__':
         print("Congratulations!!!!",' Result: \n')
         db1 = shelve.open('db.shelve')
         print(db1[result[-1]])
+        db1.close()
     else:
         print(result)
