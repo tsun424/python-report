@@ -1,6 +1,8 @@
 import cmd
 import data_generator
 import shelve
+import pie_generator
+import bar_generator
 
 
 class ReportCmd(cmd.Cmd):
@@ -27,9 +29,14 @@ class ReportCmd(cmd.Cmd):
         report = data_generator.DataGenerator(file_path)
         result_list = report.pre_check()
         if result_list[0]:
-            print("Congratulations!!!!", ' Result: \n')
-            db1 = shelve.open('db.shelve')
-            print(db1[result_list[-1]])
+            print("Congratulations!!!!", ' Report has been generated successfully.')
+            serial_number = result_list[-1]
+            msg = "Please choose report number:\n press 1: sales by bar chart\n press 2: sales by pie chart"
+            msg += "\n press 3: income by bar chart\n press 4: income by pie chart"
+            report_number = input(msg)
+            if report_number == "1":
+                pie = bar_generator.BarGenerator(serial_number)
+                pie.display_by_sales()
         else:
             print("The format of file doesn't meet criteria, details: ")
             for result_str in result_list[1:-1]:
@@ -37,7 +44,7 @@ class ReportCmd(cmd.Cmd):
             if_continue = input("continue to generate the report or exit? Please enter yes(y) or no(n):")
             if if_continue in ['', 'yes', 'y']:
                 db1 = shelve.open('db.shelve')
-                print(db1[result_list[-1]])
+                db1[result_list[-1]]
                 db1.close()
             else:
                 self.do_quit()
@@ -63,6 +70,16 @@ class ReportCmd(cmd.Cmd):
             print("Sorry, the format of file doesn't meet criteria, details: ")
             for result_str in result_list[1:-1]:
                 print(result_str)
+
+    @staticmethod
+    def do_list():
+        serial_nos = []
+        db = shelve.open('db.shelve')
+        for item in db:
+            serial_nos.append(int(item))
+        serial_nos.sort()
+        print(*serial_nos, sep="\n")
+        db.close()
 
     @staticmethod
     def do_quit(message='Exit...'):

@@ -36,7 +36,7 @@ class DataGenerator:
             raise
         for i in range(len(lines_list)):
             column_list = lines_list[i].split()
-            if len(column_list) != 6:
+            if len(column_list) not in [0, 6]:
                 if not result_list:
                     result_list.insert(0, False)
                 result_list.append(column_errmsg.format(line_number=(i+1)))
