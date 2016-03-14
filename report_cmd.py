@@ -1,5 +1,5 @@
 import cmd
-import report_generator
+import data_generator
 import shelve
 
 
@@ -24,7 +24,7 @@ class ReportCmd(cmd.Cmd):
         """
         if not file_path:
             file_path = input("Please input the file path: ")
-        report = report_generator.ReportGenerator(file_path)
+        report = data_generator.DataGenerator(file_path)
         result_list = report.pre_check()
         if result_list[0]:
             print("Congratulations!!!!", ' Result: \n')
@@ -55,7 +55,7 @@ class ReportCmd(cmd.Cmd):
         """
         if not file_path:
             file_path = input("Please input the file path: ")
-        report = report_generator.ReportGenerator(file_path)
+        report = data_generator.DataGenerator(file_path)
         result_list = report.pre_check()
         if result_list[0]:
             print("Congratulations!!!!", ' The serial number is: ', result_list[-1])
