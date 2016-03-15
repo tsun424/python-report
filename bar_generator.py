@@ -42,7 +42,8 @@ class BarGenerator(a_plot_generator.APlotGenerator):
             y_list.append(v)
         income_plot = go.Bar(x=x_list, y=y_list, name='Income')
         data = [sales_plot, income_plot]
-        layout = go.Layout(barmode='group', title="Sales and Income data by bar chart")
+        layout = go.Layout(barmode='group',
+                           title="Sales and Income data by bar chart")
         fig = go.Figure(data=data, layout=layout)
         plotly.offline.plot(fig, filename="sales_income_bar")
 

@@ -27,7 +27,7 @@ class PieGenerator(a_plot_generator.APlotGenerator):
         fig = {'data': [{'labels': label_list,
                          'values': value_list,
                          'type': 'pie'}],
-               'layout': {'title': 'Sales data in pie chart'}
+               'layout': {'title': 'Income data in pie chart'}
                }
         plotly.offline.plot(fig, filename="income_pie")
 
