@@ -21,7 +21,8 @@ class ReportCmd(cmd.Cmd):
         import data from a text file, generate according format of reports
         then show it in a broswer
         command format:
-        report xxx.txt  xxx.txt is the file absolute path, for example, E:/data.txt
+        report xxx.txt  xxx.txt is the file absolute path, for example,
+                        E:/data.txt
         report          if there is no file path, will request customer to
                         input later or use default file 'data.txt'
         :param file_path: the text file location
