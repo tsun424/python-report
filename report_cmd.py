@@ -3,6 +3,7 @@ import data_generator
 import shelve
 import pie_generator
 import bar_generator
+import sys
 
 
 class ReportCmd(cmd.Cmd):
@@ -19,35 +20,32 @@ class ReportCmd(cmd.Cmd):
         import date from a text file and generate according format of reports
         command format:
         report xxx  xxx is the file absolute path
-        report      if there is no file path, will request customer to input later
+        report      if there is no file path, will request customer to input later or use default file 'data.txt'
 
         :param file_path: the text file location
         :return:
         """
         if not file_path:
-            file_path = input("Please input the file path: ")
+            msg = "The file is not given, default file 'data.txt' will be used if you input Enter,\n" \
+                  "otherwise, please input the file name which you want to handle: "
+            file_path = input(msg)
+            if not file_path:
+                file_path = 'data.txt'
         report = data_generator.DataGenerator(file_path)
         result_list = report.pre_check()
         if result_list[0]:
             print("Congratulations!!!!", ' Report has been generated successfully.')
             serial_number = result_list[-1]
-            msg = "Please choose report number:\n press 1: sales by bar chart\n press 2: sales by pie chart"
-            msg += "\n press 3: income by bar chart\n press 4: income by pie chart"
-            report_number = input(msg)
-            if report_number == "1":
-                pie = bar_generator.BarGenerator(serial_number)
-                pie.display_by_sales()
+            self.__show_report(serial_number)
         else:
             print("The format of file doesn't meet criteria, details: ")
             for result_str in result_list[1:-1]:
                 print(result_str)
             if_continue = input("continue to generate the report or exit? Please enter yes(y) or no(n):")
             if if_continue in ['', 'yes', 'y']:
-                db1 = shelve.open('db.shelve')
-                db1[result_list[-1]]
-                db1.close()
-            else:
-                self.do_quit()
+                self.__show_report(result_list[-1])
+            elif if_continue in ['no', 'n']:
+                sys.exit()
 
     @staticmethod
     def do_precheck(file_path=''):
@@ -72,9 +70,16 @@ class ReportCmd(cmd.Cmd):
                 print(result_str)
 
     @staticmethod
-    def do_list():
+    def do_ls(db_name='db.shelve'):
+        """
+        list all available serial numbers in shelve order by time
+        :param db_name: a string to show the shelve name
+        :return:
+        """
+        if db_name == '':
+            db_name = 'db.shelve'
         serial_nos = []
-        db = shelve.open('db.shelve')
+        db = shelve.open(db_name)
         for item in db:
             serial_nos.append(int(item))
         serial_nos.sort()
@@ -91,6 +96,40 @@ class ReportCmd(cmd.Cmd):
         """
         print(message)
         return True
+
+    def do_show(self, serial_number=''):
+        """
+        request user to input one serial number and show related report
+        :param serial_number: a string which is the key of data in shelve
+        :return:
+        """
+        if serial_number == '':
+            serial_number = input("Please input a serial number: ")
+        self.__show_report(serial_number)
+
+    @staticmethod
+    def __show_report(serial_number):
+        """
+        show report menu and request user to choose which report is to be generated and shown
+        :param: serial_number: a string which is the key of data in shelve
+        :return:
+        """
+        bar = bar_generator.BarGenerator(serial_number)
+        pie = pie_generator.PieGenerator(serial_number)
+        msg = "Please choose report number:\n press 1: sales by bar chart\n press 2: sales by pie chart"
+        msg += "\n press 3: income by bar chart\n press 4: income by pie chart"
+        msg += "\n press 5: income and sales by bar chart\n"
+        report_number = input(msg)
+        if report_number == "1":
+            bar.display_by_sales()
+        elif report_number == "2":
+            pie.display_by_sales()
+        elif report_number == "3":
+            bar.display_by_income()
+        elif report_number == "4":
+            pie.display_by_income()
+        elif report_number == "5":
+            bar.display_income_sales()
 
 
 if __name__ == '__main__':

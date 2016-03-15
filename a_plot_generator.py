@@ -1,11 +1,16 @@
 import shelve
 from collections import OrderedDict
 
+
 class APlotGenerator:
 
-    def __init__(self, serial_no=''):
+    def __init__(self, serial_number=''):
         db = shelve.open("db.shelve")
-        self.db_data = db[serial_no]
+        try:
+            self.db_data = db[serial_number]
+        except KeyError:
+            print("There is no such serial number("+serial_number+") in shelve, please input a correct serial number")
+            raise
         self.sales_data = OrderedDict([("0-99", 0), ("100-199", 0), ("200-299", 0), ("300-399", 0), ("400-499", 0), ("500-599", 0), ("600-699", 0), ("700-799", 0)])
         self.sales_data["800-899"] = 0
         self.sales_data["900-999"] = 0

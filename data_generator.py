@@ -25,7 +25,7 @@ class DataGenerator:
         passed_list = []
         # error messages
         column_errmsg = "The format of line {line_number} is not correct, "
-        column_errmsg += "6 columns which are separated by one space in one line"
+        column_errmsg += "6 columns are requested and they should be separated by one space in one line"
         columns = ["ID", "Gender", "Age", "Sales", "BMI", "Income"]
         errmsg = "The format of {column}({value}) of line {line_number} is not correct."
         try:
@@ -36,7 +36,9 @@ class DataGenerator:
             raise
         for i in range(len(lines_list)):
             column_list = lines_list[i].split()
-            if len(column_list) not in [0, 6]:
+            if len(column_list) == 0:
+                continue
+            if len(column_list) != 6:
                 if not result_list:
                     result_list.insert(0, False)
                 result_list.append(column_errmsg.format(line_number=(i+1)))
@@ -84,7 +86,7 @@ class DataGenerator:
         return result_list
 
 if __name__ == '__main__':
-    r = DataGenerator('test.txt')
+    r = DataGenerator('data.txt')
     result = r.pre_check()
     if result[0]:
         print("Congratulations!!!!",' Result: \n')
