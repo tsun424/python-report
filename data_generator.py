@@ -1,4 +1,3 @@
-from os.path import getsize
 import re
 import shelve
 import time
@@ -10,6 +9,7 @@ class DataGenerator:
     def __init__(self, file_path):
         self.file_data = file_bean.FileBean(file_path)
         self.passed_lines_list = []     # lines which have passed the check
+        self.result_list = []
 
     def pre_check(self):
         if self.file_data.file_size > 10:
@@ -20,7 +20,6 @@ class DataGenerator:
         result list, first element is Boolean to indicate
         pass(True) or not(False)
         """
-        result_list = []
         passed_list = []
         # error messages
         column_errmsg = "The format of line {line_number} is " \
@@ -37,68 +36,56 @@ class DataGenerator:
             print("Could not open the file: "+self.file_path)
             raise
         for i in range(len(lines_list)):
+            passed_check = True
             column_list = lines_list[i].split()
             if len(column_list) == 0:
                 continue
             if len(column_list) != 6:
-                if not result_list:
-                    result_list.insert(0, False)
-                result_list.append(column_errmsg.format(line_number=(i+1)))
+                self.insert_result_list(column_errmsg.format(line_number=(i+1)))
                 continue
             # check the format of ID
             if not re.match('^[A-Z][0-9]{3}$', column_list[0]):
-                if not result_list:
-                    result_list.insert(0, False)
-                result_list.append(errmsg.format(column=columns[0],
-                                                 value=column_list[0],
-                                                 line_number=(i+1)))
+                self.insert_result_list(errmsg.format(column=columns[0], value=column_list[0], line_number=(i+1)))
+                passed_check = False
             # check the format of Gender
             if not re.match('^(M|F)$', column_list[1]):
-                if not result_list:
-                    result_list.insert(0, False)
-                result_list.append(errmsg.format(column=columns[1],
-                                                 value=column_list[1],
-                                                 line_number=(i+1)))
+                self.insert_result_list(errmsg.format(column=columns[1], value=column_list[1], line_number=(i+1)))
+                passed_check = False
             # check the format of Age
             if not re.match('^[0-9]{2}$', column_list[2]):
-                if not result_list:
-                    result_list.insert(0, False)
-                result_list.append(errmsg.format(column=columns[2],
-                                                 value=column_list[2],
-                                                 line_number=(i+1)))
+                self.insert_result_list(errmsg.format(column=columns[2], value=column_list[2], line_number=(i+1)))
+                passed_check = False
             # check the format of Sales
             if not re.match('^[0-9]{3}$', column_list[3]):
-                if not result_list:
-                    result_list.insert(0, False)
-                result_list.append(errmsg.format(column=columns[3],
-                                                 value=column_list[3],
-                                                 line_number=(i+1)))
+                self.insert_result_list(errmsg.format(column=columns[3], value=column_list[3], line_number=(i+1)))
+                passed_check = False
             # check the format of BMI
-            if not re.match('^(Normal|Overweight|Obesity|Underweight)$',
-                            column_list[4]):
-                if not result_list:
-                    result_list.insert(0, False)
-                result_list.append(errmsg.format(column=columns[4],
-                                                 value=column_list[4],
-                                                 line_number=(i+1)))
+            if not re.match('^(Normal|Overweight|Obesity|Underweight)$', column_list[4]):
+                self.insert_result_list(errmsg.format(column=columns[4], value=column_list[4], line_number=(i+1)))
+                passed_check = False
             # check the format of Income
             if not re.match('^[0-9]{2,3}$', column_list[5]):
-                if not result_list:
-                    result_list.insert(0, False)
-                result_list.append(errmsg.format(column=columns[5],
-                                                 value=column_list[5],
-                                                 line_number=(i+1)))
-            if not result_list:
+                self.insert_result_list(errmsg.format(column=columns[5], value=column_list[5], line_number=(i+1)))
+                passed_check = False
+            if passed_check:
                 passed_list.append(lines_list[i])
-        if not result_list:
-            result_list.insert(0, True)
+        if not self.result_list:
+            self.result_list.insert(0, True)
         if passed_list:
-            db = shelve.open('db.shelve', 'c')
-            current_time = time.strftime("%Y%m%d%H%M%S")
-            db[current_time] = passed_list
-            result_list.append(current_time)
-            db.close()
-        return result_list
+            self.insert_shelve(passed_list)
+        return self.result_list
+
+    def insert_result_list(self, error_msg):
+        if not self.result_list:
+            self.result_list.insert(0, False)
+        self.result_list.append(error_msg)
+
+    def insert_shelve(self, passed_list):
+        db = shelve.open('db.shelve', 'c')
+        current_time = time.strftime("%Y%m%d%H%M%S")
+        db[current_time] = passed_list
+        self.result_list.append(current_time)
+        db.close()
 
 if __name__ == '__main__':
     r = DataGenerator('data.txt')
