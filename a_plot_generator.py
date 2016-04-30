@@ -1,5 +1,7 @@
 import shelve
 from collections import OrderedDict
+import plotly
+import plotly.graph_objs as go
 
 
 class APlotGenerator:
@@ -84,3 +86,35 @@ class APlotGenerator:
                 self.income_data["800-899"] += 1
             elif 900 <= income <= 999:
                 self.income_data["900-999"] += 1
+
+    def display_by_sales(self, report_type, title, file_name):
+        label_list = []
+        value_list = []
+        for k, v in self.sales_data.items():
+            label_list.append(k)
+            value_list.append(v)
+        if report_type == 'pie':
+            fig = {'data': [{'labels': label_list,
+                             'values': value_list,
+                             'type': 'pie'}],
+                   'layout': {'title': title}
+                   }
+        elif report_type == 'bar':
+            fig = {"data": [go.Bar(x=label_list, y=value_list, name='Sales')], "layout": go.Layout(title=title)}
+        plotly.offline.plot(fig, filename=file_name)
+
+    def display_by_income(self, report_type, title, file_name):
+        label_list = []
+        value_list = []
+        for k, v in self.income_data.items():
+            label_list.append(k)
+            value_list.append(v)
+        if report_type == 'pie':
+            fig = {'data': [{'labels': label_list,
+                             'values': value_list,
+                             'type': 'pie'}],
+                   'layout': {'title': title}
+                   }
+        elif report_type == 'bar':
+            fig = {"data": [go.Bar(x=label_list, y=value_list, name='Income')], "layout": go.Layout(title=title)}
+        plotly.offline.plot(fig, filename=file_name)

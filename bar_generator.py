@@ -9,24 +9,10 @@ class BarGenerator(a_plot_generator.APlotGenerator):
         a_plot_generator.APlotGenerator.__init__(self, serial_no)
 
     def display_by_sales(self):
-        x_list = []
-        y_list = []
-        for k, v in self.sales_data.items():
-            x_list.append(k)
-            y_list.append(v)
-        data = {"data": [go.Bar(x=x_list, y=y_list, name='Sales')],
-                "layout": go.Layout(title="Sales data by bar chart")}
-        plotly.offline.plot(data, filename="sales_bar")
+        super(BarGenerator, self).display_by_sales('bar', 'Sales data by bar chart', 'sales_bar')
 
     def display_by_income(self):
-        x_list = []
-        y_list = []
-        for k, v in self.income_data.items():
-            x_list.append(k)
-            y_list.append(v)
-        data = {"data": [go.Bar(x=x_list, y=y_list, name='Income')],
-                "layout": go.Layout(title="Income data by bar chart")}
-        plotly.offline.plot(data, filename="income_bar")
+        super(BarGenerator, self).display_by_income('bar', 'Income data by bar chart', 'income_bar')
 
     def display_income_sales(self):
         x_list = []
