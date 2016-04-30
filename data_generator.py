@@ -41,31 +41,51 @@ class DataGenerator:
             if len(column_list) == 0:
                 continue
             if len(column_list) != 6:
-                self.insert_result_list(column_errmsg.format(line_number=(i+1)))
+                self.insert_result_list(column_errmsg.
+                                        format(line_number=(i+1)))
                 continue
             # check the format of ID
             if not re.match('^[A-Z][0-9]{3}$', column_list[0]):
-                self.insert_result_list(errmsg.format(column=columns[0], value=column_list[0], line_number=(i+1)))
+                self.insert_result_list(errmsg.
+                                        format(column=columns[0],
+                                               value=column_list[0],
+                                               line_number=(i+1)))
                 passed_check = False
             # check the format of Gender
             if not re.match('^(M|F)$', column_list[1]):
-                self.insert_result_list(errmsg.format(column=columns[1], value=column_list[1], line_number=(i+1)))
+                self.insert_result_list(errmsg.
+                                        format(column=columns[1],
+                                               value=column_list[1],
+                                               line_number=(i+1)))
                 passed_check = False
             # check the format of Age
             if not re.match('^[0-9]{2}$', column_list[2]):
-                self.insert_result_list(errmsg.format(column=columns[2], value=column_list[2], line_number=(i+1)))
+                self.insert_result_list(errmsg.
+                                        format(column=columns[2],
+                                               value=column_list[2],
+                                               line_number=(i+1)))
                 passed_check = False
             # check the format of Sales
             if not re.match('^[0-9]{3}$', column_list[3]):
-                self.insert_result_list(errmsg.format(column=columns[3], value=column_list[3], line_number=(i+1)))
+                self.insert_result_list(errmsg.
+                                        format(column=columns[3],
+                                               value=column_list[3],
+                                               line_number=(i+1)))
                 passed_check = False
             # check the format of BMI
-            if not re.match('^(Normal|Overweight|Obesity|Underweight)$', column_list[4]):
-                self.insert_result_list(errmsg.format(column=columns[4], value=column_list[4], line_number=(i+1)))
+            if not re.match('^(Normal|Overweight|Obesity|Underweight)$',
+                            column_list[4]):
+                self.insert_result_list(errmsg.
+                                        format(column=columns[4],
+                                               value=column_list[4],
+                                               line_number=(i+1)))
                 passed_check = False
             # check the format of Income
             if not re.match('^[0-9]{2,3}$', column_list[5]):
-                self.insert_result_list(errmsg.format(column=columns[5], value=column_list[5], line_number=(i+1)))
+                self.insert_result_list(errmsg.
+                                        format(column=columns[5],
+                                               value=column_list[5],
+                                               line_number=(i+1)))
                 passed_check = False
             if passed_check:
                 passed_list.append(lines_list[i])
