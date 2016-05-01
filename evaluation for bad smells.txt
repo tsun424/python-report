@@ -1,0 +1,10 @@
+1. Duplicate Code:
+	the bad smell has been removed successfully from code, according to pulling up the methods to super
+	class, the code become less, also it would help further maintenance
+2. Long method:
+	the bad smell has been removed successfully from code, the lines of code become less, the responsibility
+	of reach method become more clear.
+3. Primitive Obsession:
+	the bad smell has been removed successfully from code, but it seems that a new bad smell has been brought,
+	Data Class, currently, the new class FileBean only contains data set functionality, but in the future,
+	if there is new requirement, we can add more additional functional methods into this class.
