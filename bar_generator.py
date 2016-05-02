@@ -9,10 +9,12 @@ class BarGenerator(a_plot_generator.APlotGenerator):
         a_plot_generator.APlotGenerator.__init__(self, serial_no)
 
     def display_by_sales(self):
-        super(BarGenerator, self).display_by_sales('bar', 'Sales data by bar chart', 'sales_bar')
+        super(BarGenerator, self).\
+            display_by_sales('bar', 'Sales data by bar chart', 'sales_bar')
 
     def display_by_income(self):
-        super(BarGenerator, self).display_by_income('bar', 'Income data by bar chart', 'income_bar')
+        super(BarGenerator, self).\
+            display_by_income('bar', 'Income data by bar chart', 'income_bar')
 
     def display_income_sales(self):
         x_list = []

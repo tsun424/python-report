@@ -100,7 +100,8 @@ class APlotGenerator:
                    'layout': {'title': title}
                    }
         elif report_type == 'bar':
-            fig = {"data": [go.Bar(x=label_list, y=value_list, name='Sales')], "layout": go.Layout(title=title)}
+            fig = {"data": [go.Bar(x=label_list, y=value_list, name='Sales')],
+                   "layout": go.Layout(title=title)}
         plotly.offline.plot(fig, filename=file_name)
 
     def display_by_income(self, report_type, title, file_name):
@@ -116,5 +117,6 @@ class APlotGenerator:
                    'layout': {'title': title}
                    }
         elif report_type == 'bar':
-            fig = {"data": [go.Bar(x=label_list, y=value_list, name='Income')], "layout": go.Layout(title=title)}
+            fig = {"data": [go.Bar(x=label_list, y=value_list, name='Income')],
+                   "layout": go.Layout(title=title)}
         plotly.offline.plot(fig, filename=file_name)
