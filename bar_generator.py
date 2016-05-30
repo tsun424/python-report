@@ -8,13 +8,15 @@ class BarGenerator(a_plot_generator.APlotGenerator):
     def __init__(self, serial_no=''):
         a_plot_generator.APlotGenerator.__init__(self, serial_no)
 
-    def display_by_sales(self):
-        super(BarGenerator, self).\
-            display_by_sales('bar', 'Sales data by bar chart', 'sales_bar')
+    def prepare_sales_figure(self, label_list, value_list):
+        fig = {"data": [go.Bar(x=label_list, y=value_list, name='Sales')],
+               "layout": go.Layout(title="Sales data by bar chart")}
+        return fig, 'sales_bar'
 
-    def display_by_income(self):
-        super(BarGenerator, self).\
-            display_by_income('bar', 'Income data by bar chart', 'income_bar')
+    def prepare_income_figure(self, label_list, value_list):
+        fig = {"data": [go.Bar(x=label_list, y=value_list, name='Income')],
+               "layout": go.Layout(title="Income data by bar chart")}
+        return fig, "income_bar"
 
     def display_income_sales(self):
         x_list = []

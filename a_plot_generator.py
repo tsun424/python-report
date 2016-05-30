@@ -87,36 +87,34 @@ class APlotGenerator:
             elif 900 <= income <= 999:
                 self.income_data["900-999"] += 1
 
-    def display_by_sales(self, report_type, title, file_name):
+    def display_by_sales(self):
+        label_list, value_list = self.prepare_sales_date()
+        fig, file_name = self.prepare_sales_figure(label_list, value_list)
+        plotly.offline.plot(fig, filename=file_name)
+
+    def display_by_income(self):
+        label_list, value_list = self.prepare_income_date()
+        fig, file_name = self.prepare_income_figure(label_list, value_list)
+        plotly.offline.plot(fig, filename=file_name)
+
+    def prepare_sales_date(self):
         label_list = []
         value_list = []
         for k, v in self.sales_data.items():
             label_list.append(k)
             value_list.append(v)
-        if report_type == 'pie':
-            fig = {'data': [{'labels': label_list,
-                             'values': value_list,
-                             'type': 'pie'}],
-                   'layout': {'title': title}
-                   }
-        elif report_type == 'bar':
-            fig = {"data": [go.Bar(x=label_list, y=value_list, name='Sales')],
-                   "layout": go.Layout(title=title)}
-        plotly.offline.plot(fig, filename=file_name)
+        return label_list, value_list
 
-    def display_by_income(self, report_type, title, file_name):
+    def prepare_sales_figure(self, label_list, value_list):
+        pass
+
+    def prepare_income_date(self):
         label_list = []
         value_list = []
         for k, v in self.income_data.items():
             label_list.append(k)
             value_list.append(v)
-        if report_type == 'pie':
-            fig = {'data': [{'labels': label_list,
-                             'values': value_list,
-                             'type': 'pie'}],
-                   'layout': {'title': title}
-                   }
-        elif report_type == 'bar':
-            fig = {"data": [go.Bar(x=label_list, y=value_list, name='Income')],
-                   "layout": go.Layout(title=title)}
-        plotly.offline.plot(fig, filename=file_name)
+        return label_list, value_list
+
+    def prepare_income_figure(self, label_list, value_list):
+        pass
