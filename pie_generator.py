@@ -8,14 +8,14 @@ class PieGenerator(a_plot_generator.APlotGenerator):
                         'values': value_list,
                          'type': 'pie'}],
                'layout': {'title': 'Sales data in pie chart'}}
-        return fig, 'sales_pie'
+        return fig, 'sales_pie.html'
 
     def prepare_income_figure(self, label_list, value_list):
         fig = {'data': [{'labels': label_list,
                         'values': value_list,
                          'type': 'pie'}],
                'layout': {'title': "Income data in pie chart"}}
-        return fig, "income_pie"
+        return fig, "income_pie.html"
 
 if __name__ == "__main__":
     pie = PieGenerator('20160314233501')

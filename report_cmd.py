@@ -1,8 +1,7 @@
 import cmd
 import data_generator
 import shelve
-import pie_generator
-import bar_generator
+import plot_factory
 import sys
 
 
@@ -128,8 +127,8 @@ class ReportCmd(cmd.Cmd):
         :param: serial_number: a string which is the key of data in shelve
         :return:
         """
-        bar = bar_generator.BarGenerator(serial_number)
-        pie = pie_generator.PieGenerator(serial_number)
+        bar = plot_factory.PlotFactory.create_bar(serial_number)
+        pie = plot_factory.PlotFactory.create_pie(serial_number)
         msg = "Please choose report number:\n press 1: sales by bar chart\n " \
               "press 2: sales by pie chart\n press 3: income by bar chart\n " \
               "press 4: income by pie chart\n " \
