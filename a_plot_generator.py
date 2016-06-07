@@ -88,16 +88,16 @@ class APlotGenerator:
                 self.income_data["900-999"] += 1
 
     def display_by_sales(self):
-        label_list, value_list = self.prepare_sales_date()
+        label_list, value_list = self.prepare_sales_data()
         fig, file_name = self.prepare_sales_figure(label_list, value_list)
         plotly.offline.plot(fig, filename=file_name)
 
     def display_by_income(self):
-        label_list, value_list = self.prepare_income_date()
+        label_list, value_list = self.prepare_income_data()
         fig, file_name = self.prepare_income_figure(label_list, value_list)
         plotly.offline.plot(fig, filename=file_name)
 
-    def prepare_sales_date(self):
+    def prepare_sales_data(self):
         label_list = []
         value_list = []
         for k, v in self.sales_data.items():
@@ -106,9 +106,9 @@ class APlotGenerator:
         return label_list, value_list
 
     def prepare_sales_figure(self, label_list, value_list):
-        pass
+        raise NotImplementedError()
 
-    def prepare_income_date(self):
+    def prepare_income_data(self):
         label_list = []
         value_list = []
         for k, v in self.income_data.items():
@@ -117,4 +117,4 @@ class APlotGenerator:
         return label_list, value_list
 
     def prepare_income_figure(self, label_list, value_list):
-        pass
+        raise NotImplementedError()
